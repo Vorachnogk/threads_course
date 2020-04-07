@@ -11,7 +11,6 @@ public class ThingCanvas extends JPanel {
     private final int y = 150;
     private int inc = 0;
 
-
     public void add(Thing b) {
         this.things.add(b);
     }
