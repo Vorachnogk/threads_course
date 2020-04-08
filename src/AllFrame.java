@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 
 public class AllFrame extends JFrame {
 
-    public static final int WIDTH = 450;
-    public static final int HEIGHT = 350;
+    public static final int WIDTH = 1200;
+    public static final int HEIGHT = 1500;
     private ThingCanvas canvas;
 
     public AllFrame() {
@@ -29,12 +29,15 @@ public class AllFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Thing t = new Thing(canvas);
-                canvas.add(t);
+                for (int i = 0; i < 25; i++) {
 
-                ThingThread thread = new ThingThread(t);
-                thread.start();
-                System.out.println("Thread name = " + thread.getName());
+                    Thing t = new Thing(canvas);
+                    canvas.add(t);
+
+                    ThingThread thread = new ThingThread(t);
+                    thread.start();
+                    System.out.println("Thread name = " + thread.getName());
+                }
             }
         });
 
