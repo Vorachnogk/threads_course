@@ -3,8 +3,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 public class Thing {
-    private static final int XSIZE = 20;
-    private static final int YSIZE = 20;
+    private final int size = 20;
     private Component canvas;
     private int type;
     private int subType;
@@ -37,6 +36,10 @@ public class Thing {
         y = new Random().nextInt(this.canvas.getHeight());
     }
 
+    public int getSize() {
+        return size;
+    }
+
     public int getSubType() {
         return subType;
     }
@@ -55,6 +58,14 @@ public class Thing {
 
     public int getSpeedX() {
         return speedX;
+    }
+
+    public void setSpeedX(int speedX) {
+        this.speedX = speedX;
+    }
+
+    public void setSpeedY(int speedY) {
+        this.speedY = speedY;
     }
 
     public int getLife() {
@@ -80,7 +91,7 @@ public class Thing {
                 g2.setColor(Color.MAGENTA);
                 break;
         }
-        g2.fill(new Rectangle2D.Double(x, y, XSIZE, YSIZE));
+        g2.fill(new Rectangle2D.Double(x, y, size, size));
     }
 
     public void move() {
@@ -90,16 +101,16 @@ public class Thing {
             x = 0;
             speedX = -speedX;
         }
-        if (x + XSIZE >= this.canvas.getWidth()) {
-            x = this.canvas.getWidth() - XSIZE;
+        if (x + size >= this.canvas.getWidth()) {
+            x = this.canvas.getWidth() - size;
             speedX = -speedX;
         }
         if (y < 0) {
             y = 0;
             speedY = -speedY;
         }
-        if (y + YSIZE >= this.canvas.getHeight()) {
-            y = this.canvas.getHeight() - YSIZE;
+        if (y + size >= this.canvas.getHeight()) {
+            y = this.canvas.getHeight() - size;
             speedY = -speedY;
         }
         this.life++;

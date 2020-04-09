@@ -29,7 +29,7 @@ public class AllFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < 25; i++) {
+                for (int i = 0; i < 10; i++) {
 
                     Thing t = new Thing(canvas);
                     canvas.add(t);

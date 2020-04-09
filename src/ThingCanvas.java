@@ -25,13 +25,31 @@ public class ThingCanvas extends JPanel {
             Thing b = things.get(i);
             b.draw(g2);
         }
+        runAway();
         createDestroy();
+    }
+
+    public void runAway() {
+        for (Thing firstThing : things) {
+            for (Thing secondThing : things) {
+                if (firstThing.getType() < secondThing.getType() && secondThing.getSubType() > 0 && firstThing != secondThing
+                        && firstThing.getX() < (secondThing.getX() + 2 * secondThing.getSize())
+                        && firstThing.getY() < (secondThing.getY() + 2 * secondThing.getSize())) {
+                    firstThing.setSpeedX(-firstThing.getSpeedX());
+                    firstThing.setSpeedY(-firstThing.getSpeedX());
+                }
+            }
+        }
     }
 
     public void createDestroy() {
         for (Thing firstThing : things) {
             for (Thing secondThing : things) {
-                if (firstThing.getX() == secondThing.getX() && firstThing.getY() == secondThing.getY() && firstThing != secondThing) {
+                if (firstThing.getX() == secondThing.getX() && firstThing.getY() == secondThing.getY() && firstThing != secondThing
+                        && secondThing.getX() <= (firstThing.getX() + firstThing.getSize())
+                        && secondThing.getY() <= (firstThing.getY() + firstThing.getSize())
+                        && firstThing.getX() <= (secondThing.getX() + secondThing.getSize())
+                        && firstThing.getY() <= (secondThing.getY() + secondThing.getSize())) {
                     if (firstThing.getType() == secondThing.getType()) {
                         Thing t = new Thing(this, firstThing.getType(), firstThing.getSpeedX());
                         this.add(t);
@@ -40,11 +58,11 @@ public class ThingCanvas extends JPanel {
                         thread.start();
                         born++;
                         System.out.println("Thread name = " + thread.getName());
-                    } else if (firstThing.getType() > secondThing.getType() && firstThing.getSubType() > 0) {
-                        things.remove(secondThing);
-                        kill++;
                     } else if (firstThing.getType() < secondThing.getType() && secondThing.getSubType() > 0) {
                         things.remove(firstThing);
+                        kill++;
+                    } else if (secondThing.getType() < firstThing.getType() && firstThing.getSubType() > 0) {
+                        things.remove(secondThing);
                         kill++;
                     }
                 }
