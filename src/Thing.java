@@ -1,5 +1,5 @@
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 public class Thing {
@@ -7,33 +7,38 @@ public class Thing {
     private static final int YSIZE = 20;
     private Component canvas;
     private int type;
+    private int subType;
+    private int life = 0;
+    private int death;
     private int x = 0;
     private int y = 0;
-    private int dx = 2;
-    private int dy = 2;
+    private int speedX;
+    private int speedY;
 
     public Thing(Component c) {
         this.canvas = c;
+        death = new Random().nextInt(70000);
         type = new Random().nextInt(4);
-        if (Math.random() < 0.5) {
-            x = new Random().nextInt(this.canvas.getWidth());
-            y = 0;
-        } else {
-            x = 0;
-            y = new Random().nextInt(this.canvas.getHeight());
-        }
+        subType = new Random().nextInt(2);
+        speedX = type + 1;
+        speedY = type + 1;
+        x = new Random().nextInt(this.canvas.getWidth());
+        y = new Random().nextInt(this.canvas.getHeight());
     }
 
-    public Thing(Component c, int type) {
+    public Thing(Component c, int type, int speed) {
         this.canvas = c;
         this.type = type;
-        if (Math.random() < 0.5) {
-            x = new Random().nextInt(this.canvas.getWidth());
-            y = 0;
-        } else {
-            x = 0;
-            y = new Random().nextInt(this.canvas.getHeight());
-        }
+        subType = 1;
+        death = new Random().nextInt(80000);
+        speedX = speed + 1;
+        speedY = speed + 1;
+        x = new Random().nextInt(this.canvas.getWidth());
+        y = new Random().nextInt(this.canvas.getHeight());
+    }
+
+    public int getSubType() {
+        return subType;
     }
 
     public int getX() {
@@ -48,43 +53,56 @@ public class Thing {
         return type;
     }
 
+    public int getSpeedX() {
+        return speedX;
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public int getDeath() {
+        return death;
+    }
+
     public void draw(Graphics2D g2) {
         switch (this.getType()) {
-            case (1):
+            case (0):
                 g2.setColor(Color.RED);
                 break;
-            case (2):
+            case (1):
                 g2.setColor(Color.GREEN);
                 break;
-            case (3):
+            case (2):
                 g2.setColor(Color.YELLOW);
                 break;
-            case (4):
+            case (3):
                 g2.setColor(Color.MAGENTA);
                 break;
         }
-        g2.fill(new Ellipse2D.Double(x, y, XSIZE, YSIZE));
+        g2.fill(new Rectangle2D.Double(x, y, XSIZE, YSIZE));
     }
 
     public void move() {
-        x += dx;
-        y += dy;
+        x += speedX;
+        y += speedY;
         if (x < 0) {
             x = 0;
-            dx = -dx;
+            speedX = -speedX;
         }
         if (x + XSIZE >= this.canvas.getWidth()) {
             x = this.canvas.getWidth() - XSIZE;
-            dx = -dx;
+            speedX = -speedX;
         }
         if (y < 0) {
             y = 0;
-            dy = -dy;
+            speedY = -speedY;
         }
         if (y + YSIZE >= this.canvas.getHeight()) {
             y = this.canvas.getHeight() - YSIZE;
-            dy = -dy;
+            speedY = -speedY;
         }
+        this.life++;
         this.canvas.repaint();
     }
 }

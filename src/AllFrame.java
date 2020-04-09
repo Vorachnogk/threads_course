@@ -5,13 +5,13 @@ import java.awt.event.ActionListener;
 
 public class AllFrame extends JFrame {
 
-    public static final int WIDTH = 1200;
-    public static final int HEIGHT = 1500;
+    public static final int WIDTH = 600;
+    public static final int HEIGHT = 500;
     private ThingCanvas canvas;
 
     public AllFrame() {
         this.setSize(WIDTH, HEIGHT);
-        this.setTitle("Bounce program");
+        this.setTitle("LIFE GAME");
 
         this.canvas = new ThingCanvas();
         System.out.println("In Frame Thread name = "
@@ -22,8 +22,8 @@ public class AllFrame extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.lightGray);
 
-        JButton buttonStart = new JButton("Start");
-        JButton buttonStop = new JButton("Stop");
+        JButton buttonStart = new JButton("Begin");
+        JButton buttonStop = new JButton("End");
 
         buttonStart.addActionListener(new ActionListener() {
 
