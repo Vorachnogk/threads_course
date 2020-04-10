@@ -25,11 +25,11 @@ public class ThingCanvas extends JPanel {
             Thing b = things.get(i);
             b.draw(g2);
         }
-        runAway();
+        runHunt();
         createDestroy();
     }
 
-    public void runAway() {
+    public void runHunt() {
         for (Thing firstThing : things) {
             for (Thing secondThing : things) {
                 if (firstThing.getType() < secondThing.getType() && secondThing.getSubType() > 0 && firstThing != secondThing
@@ -37,9 +37,36 @@ public class ThingCanvas extends JPanel {
                         && firstThing.getY() < (secondThing.getY() + 2 * secondThing.getSize())) {
                     firstThing.setSpeedX(-firstThing.getSpeedX());
                     firstThing.setSpeedY(-firstThing.getSpeedX());
+                    if (secondThing.getX() > firstThing.getX()) {
+                        if (secondThing.getY() > firstThing.getY()) {
+                            secondThing.setSpeedX(-Math.abs(secondThing.getSpeedX()));
+                            secondThing.setSpeedY(-Math.abs(secondThing.getSpeedX()));
+                        } else {
+                            secondThing.setSpeedX(-Math.abs(secondThing.getSpeedX()));
+                            secondThing.setSpeedY(Math.abs(secondThing.getSpeedX()));
+                        }
+                    } else {
+                        if (secondThing.getY() > firstThing.getY()) {
+                            secondThing.setSpeedX(Math.abs(secondThing.getSpeedX()));
+                            secondThing.setSpeedY(-Math.abs(secondThing.getSpeedX()));
+                        } else {
+                            secondThing.setSpeedX(Math.abs(secondThing.getSpeedX()));
+                            secondThing.setSpeedY(Math.abs(secondThing.getSpeedX()));
+                        }
+                    }
                 }
             }
         }
+    }
+
+    public void create(Thing first, Thing second) {
+        Thing t = new Thing(this, first.getType(), second.getSpeedX());
+        this.add(t);
+
+        ThingThread thread = new ThingThread(t);
+        thread.start();
+        born++;
+        System.out.println("Thread name = " + thread.getName());
     }
 
     public void createDestroy() {
@@ -51,13 +78,13 @@ public class ThingCanvas extends JPanel {
                         && firstThing.getX() <= (secondThing.getX() + secondThing.getSize())
                         && firstThing.getY() <= (secondThing.getY() + secondThing.getSize())) {
                     if (firstThing.getType() == secondThing.getType()) {
-                        Thing t = new Thing(this, firstThing.getType(), firstThing.getSpeedX());
-                        this.add(t);
-
-                        ThingThread thread = new ThingThread(t);
-                        thread.start();
-                        born++;
-                        System.out.println("Thread name = " + thread.getName());
+                        if (firstThing.getType() == 0) {
+                            for (int i = 0; i < 5; i++) {
+                                create(firstThing, secondThing);
+                            }
+                        } else {
+                            create(firstThing, secondThing);
+                        }
                     } else if (firstThing.getType() < secondThing.getType() && secondThing.getSubType() > 0) {
                         things.remove(firstThing);
                         kill++;
