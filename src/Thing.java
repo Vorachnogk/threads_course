@@ -13,6 +13,7 @@ public class Thing {
     private int y = 0;
     private int speedX;
     private int speedY;
+    private boolean alive;
 
     public Thing(Component c) {
         this.canvas = c;
@@ -21,6 +22,7 @@ public class Thing {
         subType = new Random().nextInt(2);
         speedX = type + 1;
         speedY = type + 1;
+        alive = true;
         x = new Random().nextInt(this.canvas.getWidth());
         y = new Random().nextInt(this.canvas.getHeight());
     }
@@ -32,8 +34,17 @@ public class Thing {
         death = new Random().nextInt(80000);
         speedX = speed + 1;
         speedY = speed + 1;
+        alive = true;
         x = new Random().nextInt(this.canvas.getWidth());
         y = new Random().nextInt(this.canvas.getHeight());
+    }
+
+    public boolean getAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
     public int getSize() {

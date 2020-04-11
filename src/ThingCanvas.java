@@ -86,9 +86,11 @@ public class ThingCanvas extends JPanel {
                             create(firstThing, secondThing);
                         }
                     } else if (firstThing.getType() < secondThing.getType() && secondThing.getSubType() > 0) {
+                        firstThing.setAlive(false);
                         things.remove(firstThing);
                         kill++;
                     } else if (secondThing.getType() < firstThing.getType() && firstThing.getSubType() > 0) {
+                        secondThing.setAlive(false);
                         things.remove(secondThing);
                         kill++;
                     }
@@ -97,6 +99,7 @@ public class ThingCanvas extends JPanel {
         }
         for (Thing thing : things) {
             if (thing.getLife() >= thing.getDeath()) {
+                thing.setAlive(false);
                 things.remove(thing);
                 dead++;
             }

@@ -8,7 +8,7 @@ public class ThingThread extends Thread {
     @Override
     public void run() {
         try {
-            while (true) {
+            while (t.getAlive()) {
                 t.move();
                 System.out.println("Thread name = "
                         + Thread.currentThread().getName());
